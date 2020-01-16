@@ -10,6 +10,7 @@ import Combine
 
 enum KitError: Swift.Error {
     case badRequest
+    case missing
 }
 
 public enum MarvelKit {
@@ -23,7 +24,8 @@ extension MarvelKit {
         typealias CharactersResponse = MarvelResponse<PageResponse<Character>>
 
         let api = MarvelAPI.characters(name: name)
-        let request = Network.data(with: api) as AnyPublisher<CharactersResponse, Error>
+        let session = URLSession.api
+        let request = session.data(with: api) as AnyPublisher<CharactersResponse, Error>
         return request
             .map { $0.data.results }
             .eraseToAnyPublisher()

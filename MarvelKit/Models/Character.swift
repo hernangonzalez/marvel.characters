@@ -7,11 +7,21 @@
 //
 
 import Foundation
+import Combine
+import UIKit.UIImage
 
 public struct Character {
     public let name: String
     public let description: String
-    public let thumbnail: URL
+    let thumbnailURL: URL
+}
+
+extension Character {
+
+    func thumbnail() -> AnyPublisher<UIImage, Error> {
+        let session = URLSession.media
+        return session.image(at: thumbnailURL)
+    }
 }
 
 // MARK: - Decodable
@@ -27,9 +37,10 @@ extension Character: Decodable {
     }
 
     public init(from decoder: Decoder) throws {
+        assert(!Thread.isMainThread)
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let thumb = try container.decode(forKey: .thumbnail) as Thumbnail
-        thumbnail = thumb.url
+        thumbnailURL = thumb.url
         name = try container.decode(forKey: .name)
         description = try container.decode(forKey: .description)
     }
