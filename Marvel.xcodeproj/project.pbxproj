@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F9E5A8423D1BFFE009F475A /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E5A8323D1BFFE009F475A /* Page.swift */; };
 		5FD920C223D0E50C00F5EB8D /* MarvelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD920C123D0E50C00F5EB8D /* MarvelAPI.swift */; };
 		5FD920C423D0E57C00F5EB8D /* MarvelRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD920C323D0E57C00F5EB8D /* MarvelRequest.swift */; };
 		5FD920C623D0E5A600F5EB8D /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD920C523D0E5A600F5EB8D /* Network.swift */; };
@@ -57,6 +58,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5F9E5A8323D1BFFE009F475A /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		5FD920C123D0E50C00F5EB8D /* MarvelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelAPI.swift; sourceTree = "<group>"; };
 		5FD920C323D0E57C00F5EB8D /* MarvelRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelRequest.swift; sourceTree = "<group>"; };
 		5FD920C523D0E5A600F5EB8D /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				5FD920CC23D0FC0A00F5EB8D /* Character.swift */,
+				5F9E5A8323D1BFFE009F475A /* Page.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -354,6 +357,7 @@
 				5FDAE1E523D0D93500479419 /* Combine+Extensions.swift in Sources */,
 				5FD920C623D0E5A600F5EB8D /* Network.swift in Sources */,
 				5FDAE1E923D0DA7400479419 /* Data+Extension.swift in Sources */,
+				5F9E5A8423D1BFFE009F475A /* Page.swift in Sources */,
 				5FD920CA23D0FBDA00F5EB8D /* MarvelResponse.swift in Sources */,
 				5FD920C423D0E57C00F5EB8D /* MarvelRequest.swift in Sources */,
 				5FD920CF23D1006900F5EB8D /* Codable+Extensions.swift in Sources */,

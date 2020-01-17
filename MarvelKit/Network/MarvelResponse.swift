@@ -13,6 +13,8 @@ struct PageResponse<Item: Decodable>: Decodable {
     let count: Int
     let total: Int
     let results: [Item]
+    var endIndex: Int { offset + count }
+    var canLoadMore: Bool { endIndex < total }
 }
 
 struct MarvelResponse<DataType: Decodable>: Decodable {

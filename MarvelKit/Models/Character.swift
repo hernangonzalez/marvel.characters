@@ -17,10 +17,8 @@ public struct Character {
 }
 
 extension Character {
-
-    func thumbnail() -> AnyPublisher<UIImage, Error> {
-        let session = URLSession.media
-        return session.image(at: thumbnailURL)
+    var thumbnail: AnyPublisher<UIImage, Error> {
+        MarvelKit.image(at: thumbnailURL)
     }
 }
 
