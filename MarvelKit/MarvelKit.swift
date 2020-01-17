@@ -53,3 +53,10 @@ private extension Page where Element == Character {
         }
     }
 }
+
+public extension Page where Element == Character {
+    init() {
+        items = .init()
+        next = MarvelKit.characters(named: nil)
+    }
+}

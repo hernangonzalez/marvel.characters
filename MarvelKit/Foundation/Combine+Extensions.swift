@@ -25,3 +25,17 @@ public extension Publisher {
             .eraseToAnyPublisher()
     }
 }
+
+public typealias CancellableSet = Array<AnyCancellable>
+
+public extension CancellableSet {
+    static func += (lhs: inout Array<Element>, rhs: Element) {
+        lhs.append(rhs)
+    }
+}
+
+public extension CancellableSet {
+    func cancel() {
+        forEach { $0.cancel() }
+    }
+}
