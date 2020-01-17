@@ -21,6 +21,10 @@ public enum MarvelKit {
 // MARK: - Characters
 extension MarvelKit {
 
+    public static func allCharacters() -> AnyPublisher<Page<Character>, Error> {
+        characters(named: nil)
+    }
+
     public static func characters(named name: String?) -> AnyPublisher<Page<Character>, Error> {
         characters(named: name, offset: 0)
     }

@@ -10,21 +10,24 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: ContentViewModel
+
     var body: some View {
         ZStack {
             Color(.systemGroupedBackground)
                 .edgesIgnoringSafeArea(.all)
-            ScrollView(.vertical) {
-                VStack {
+
+            VStack {
+                TextField(viewModel.searchPlaceholder, text: $viewModel.query)
+
+                List {
                     ForEach(viewModel.rows) { row in
                         Text(row.name)
-                        Divider()
                     }
                     ActivityIndicatorView(isAnimating: true, style: .medium)
                         .onAppear(perform: viewModel.updateResults)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
+                .edgesIgnoringSafeArea(.bottom)
             }
         }
     }
