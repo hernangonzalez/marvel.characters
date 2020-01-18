@@ -14,13 +14,7 @@ public struct Character: Identifiable {
     public let id: Int
     public let name: String
     public let description: String
-    let thumbnailURL: URL
-}
-
-extension Character {
-    var thumbnail: AnyPublisher<UIImage, Error> {
-        MarvelKit.image(at: thumbnailURL)
-    }
+    public let thumbnailURL: URL
 }
 
 // MARK: - Decodable

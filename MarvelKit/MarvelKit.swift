@@ -21,46 +21,36 @@ public enum MarvelKit {
 // MARK: - Characters
 extension MarvelKit {
 
-    public static func allCharacters() -> AnyPublisher<Page<Character>, Error> {
-        characters(named: nil)
-    }
-
-    public static func characters(named name: String?) -> AnyPublisher<Page<Character>, Error> {
+    public static func characters(named name: String) -> AnyPublisher<Page<Character>, Error> {
         characters(named: name, offset: 0)
     }
 
+    public static func image(at url: URL) -> AnyPublisher<UIImage, Error> {
+        let session = URLSession.media
+        return session.image(at: url)
+    }
+
     // MARK: Internal
-    static func characters(named name: String?, offset: Int) -> AnyPublisher<Page<Character>, Error> {
+    static func characters(named name: String, offset: Int) -> AnyPublisher<Page<Character>, Error> {
         typealias CharactersResponse = MarvelResponse<PageResponse<Character>>
 
-        let api = MarvelAPI.characters(name: name, offset: offset)
+        let api = MarvelAPI.characters(name: name.isEmpty ? nil : name,
+                                       offset: offset)
         let session = URLSession.api
         let request = session.data(with: api) as AnyPublisher<CharactersResponse, Error>
         return request
             .map { Page(from: $0.data, query: name) }
             .eraseToAnyPublisher()
     }
-
-    static func image(at url: URL) -> AnyPublisher<UIImage, Error> {
-        let session = URLSession.media
-        return session.image(at: url)
-    }
 }
 
 private extension Page where Element == Character {
-    init(from response: PageResponse<Character>, query: String?) {
+    init(from response: PageResponse<Character>, query: String) {
         items = response.results
         if response.canLoadMore {
             next = MarvelKit.characters(named: query, offset: response.endIndex)
         } else {
             next = nil
         }
-    }
-}
-
-public extension Page where Element == Character {
-    init() {
-        items = .init()
-        next = MarvelKit.characters(named: nil)
     }
 }
