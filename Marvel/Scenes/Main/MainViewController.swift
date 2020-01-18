@@ -26,6 +26,13 @@ class MainViewController: UIViewController {
         return bar
     }()
 
+    private lazy var activityView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .medium)
+        view.color = .systemRed
+        view.hidesWhenStopped = true
+        return view
+    }()
+
     private lazy var dataSource = MainModels.DataSource(collectionView: collectionView) { [unowned self] collection, path, item  in
         switch item {
         case let .hero(_, model):
@@ -84,12 +91,22 @@ class MainViewController: UIViewController {
 
     private func updateContent() {
         dataSource.apply(viewModel.snapshot)
+        if viewModel.inProgress {
+            activityView.startAnimating()
+        } else {
+            activityView.stopAnimating()
+        }
     }
 
     // MARK: Navigation
     override var navigationItem: UINavigationItem {
         let item = super.navigationItem
-        item.titleView = searchBar
+        if item.titleView == nil {
+            item.titleView = searchBar
+        }
+        if item.rightBarButtonItem == nil {
+            item.rightBarButtonItem = UIBarButtonItem(customView: activityView)
+        }
         return item
     }
 }
