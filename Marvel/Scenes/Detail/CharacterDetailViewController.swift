@@ -83,10 +83,10 @@ class CharacterDetailViewController: UIViewController {
     }
 
     private func setupBindings() {
-        let binding = viewModel
+        viewModel
             .viewNeedsUpdate
-            .sink(receiveValue: updateContent)
-        bindings.append(binding)
+            .sink(receiveValue: { [unowned self] in self.updateContent() })
+            .store(in: &bindings)
     }
 
     override var navigationItem: UINavigationItem {

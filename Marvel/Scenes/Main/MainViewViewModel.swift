@@ -23,14 +23,16 @@ class MainViewViewModel {
 
     init() {
         searching = true
-        bindings += query
+        query
             .characters
             .receive(on: DispatchQueue.main)
-            .assign(to: \.characters, on: self)
-        bindings += starStore
+            .sink(receiveValue: { [unowned self] in self.characters = $0 })
+            .store(in: &bindings)
+        starStore
             .storeDidUpdate
             .receive(on: DispatchQueue.main)
-            .subscribe(needsUpdate)
+            .sink(receiveValue: { [unowned self] in self.needsUpdate.send() })
+            .store(in: &bindings)
         query.apply(query: .init())
     }
 }

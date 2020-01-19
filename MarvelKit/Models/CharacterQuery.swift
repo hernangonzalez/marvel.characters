@@ -19,9 +19,10 @@ public class CharacterQuery {
     private var next: AnyPublisher<Page<Character>, Error>?
 
     public init() {
-        bindings += input
+        input
             .debounce(for: .milliseconds(threshold), scheduler: queue)
-            .sink(receiveValue: search(name:))
+            .sink(receiveValue: { [unowned self] in self.search(name: $0) })
+            .store(in: &bindings)
     }
 }
 
@@ -43,8 +44,10 @@ public extension CharacterQuery {
             return
         }
         cancellables.cancel()
-        cancellables += publisher.sink(receiveCompletion: search(complete:),
-                                       receiveValue: append(page:))
+        publisher
+            .sink(receiveCompletion: { [unowned self] in self.search(complete: $0)},
+                  receiveValue: { [unowned self] in self.append(page: $0) })
+            .store(in: &cancellables)
     }
 
     func character(with id: Character.ID) -> Character? {

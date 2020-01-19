@@ -70,6 +70,7 @@ class MainViewController: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = .white
         collection.showsVerticalScrollIndicator = false
+        collection.alwaysBounceVertical = true
         collection.register(HeroCell.self)
         collection.register(LoadingCell.self)
         collection.delegate = self
@@ -88,10 +89,10 @@ class MainViewController: UIViewController {
     }
 
     private func setupBindings() {
-        let binding = viewModel
+        viewModel
             .viewNeedsUpdate
-            .sink(receiveValue: updateContent)
-        bindings.append(binding)
+            .sink(receiveValue: { [unowned self] in self.updateContent() })
+            .store(in: &bindings)
     }
 
     private func updateContent() {
