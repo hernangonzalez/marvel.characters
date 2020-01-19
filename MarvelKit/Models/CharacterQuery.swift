@@ -9,6 +9,14 @@
 import Foundation
 import Combine
 
+public protocol CharacterFetcher: AnyObject {
+    var characters: AnyPublisher<[Character], Never> { get }
+    var canLoadMore: Bool { get }
+    func apply(query: String)
+    func loadMore()
+    func character(with id: Character.ID) -> Character?
+}
+
 public class CharacterQuery {
     private let threshold = 300
     private var bindings = CancellableSet()
@@ -26,20 +34,21 @@ public class CharacterQuery {
     }
 }
 
-public extension CharacterQuery {
-    var characters: AnyPublisher<[Character], Never> {
+// MARK: - Public
+extension CharacterQuery: CharacterFetcher {
+    public var characters: AnyPublisher<[Character], Never> {
         items.eraseToAnyPublisher()
     }
 
-    var canLoadMore: Bool {
+    public var canLoadMore: Bool {
         next != nil
     }
 
-    func apply(query: String) {
+    public func apply(query: String) {
         input.send(query)
     }
 
-    func loadMore() {
+    public func loadMore() {
         guard let publisher = next else {
             return
         }
@@ -50,7 +59,7 @@ public extension CharacterQuery {
             .store(in: &cancellables)
     }
 
-    func character(with id: Character.ID) -> Character? {
+    public func character(with id: Character.ID) -> Character? {
         items.value.first { $0.id == id }
     }
 }

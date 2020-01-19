@@ -12,8 +12,8 @@ import Combine
 
 class MainViewViewModel {
     private var bindings = CancellableSet()
-    private let starStore: StarProvider = StarStore(.standard)
-    private let query: CharacterQuery = .init()
+    private let starStore: StarProvider
+    private let query: CharacterFetcher
     private let needsUpdate: PassthroughSubject<Void, Never> = .init()
     private var searching: Bool
     private var characters: [Character] = .init() {
@@ -21,7 +21,9 @@ class MainViewViewModel {
         didSet { needsUpdate.send() }
     }
 
-    init() {
+    init(source: CharacterFetcher, stars: StarProvider) {
+        query = source
+        starStore = stars
         searching = true
         query
             .characters
@@ -88,7 +90,7 @@ extension MainViewViewModel {
     }
 
     func toggleStart(id: Int) {
-        starStore.togge(for: id)
+        starStore.toggle(for: id)
     }
 }
 

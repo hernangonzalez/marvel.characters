@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MarvelKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let model = MainViewViewModel()
+        let model = MainViewViewModel(source: CharacterQuery(),
+                                      stars: StarStore(.standard))
         let images = ImageLoader()
         let main = MainViewController(model: model, loader: images)
         window = UIWindow()

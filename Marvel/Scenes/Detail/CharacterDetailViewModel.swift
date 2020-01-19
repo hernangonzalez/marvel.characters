@@ -42,7 +42,7 @@ class CharacterDetailViewModel {
     }
 
     func togleStar() {
-        starStore.togge(for: id)
+        starStore.toggle(for: id)
         needsUpdate.send()
     }
 }

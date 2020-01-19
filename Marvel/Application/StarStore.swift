@@ -12,7 +12,7 @@ import MarvelKit
 
 protocol StarProvider {
     var storeDidUpdate: AnyPublisher<Void, Never> { get }
-    func togge(for id: Character.ID)
+    func toggle(for id: Character.ID)
     func starred(for id: Character.ID) -> Bool
 }
 
@@ -34,7 +34,7 @@ extension StarStore {
         needsUpdate.eraseToAnyPublisher()
     }
 
-    func togge(for id: Character.ID) {
+    func toggle(for id: Character.ID) {
         var value = defaults.bool(forKey: id.description)
         value.toggle()
         defaults.set(value, forKey: id.description)
