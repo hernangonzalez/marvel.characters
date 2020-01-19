@@ -44,7 +44,9 @@ class MainViewController: UIViewController {
             cell?.delegate = self
             return cell
         case .loading:
-            return collection.loadCell(for: path) as LoadingCell?
+            let cell = collection.loadCell(for: path) as LoadingCell?
+            cell?.updateContent()
+            return cell
         }
     }
 

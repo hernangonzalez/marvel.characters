@@ -38,8 +38,7 @@ class LoadingCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func didMoveToSuperview() {
-        super.didMoveToSuperview()
+    func updateContent() {
         activityView.startAnimating()
     }
 
