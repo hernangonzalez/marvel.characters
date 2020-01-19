@@ -15,6 +15,26 @@ public struct Character: Identifiable {
     public let name: String
     public let description: String
     public let thumbnailURL: URL
+    public let comics: [Comic]
+    public let series: [Serie]
+    public let events: [Event]
+    public let stories: [Story]
+}
+
+public struct Comic: Decodable {
+    let name: String
+}
+
+public struct Serie: Decodable {
+    let name: String
+}
+
+public struct Story: Decodable {
+    let name: String
+}
+
+public struct Event: Decodable {
+    let name: String
 }
 
 // MARK: - Decodable
@@ -25,8 +45,12 @@ extension Character: Decodable {
         var url: URL { path.appendingPathExtension(`extension`) }
     }
 
+    struct Collection<Item: Decodable>: Decodable {
+        let items: [Item]
+    }
+
     enum CodingKeys: String, CodingKey {
-        case name, description, thumbnail, id
+        case name, description, thumbnail, id, comics, series, events, stories
     }
 
     public init(from decoder: Decoder) throws {
@@ -37,5 +61,17 @@ extension Character: Decodable {
         thumbnailURL = thumb.url
         name = try container.decode(forKey: .name)
         description = try container.decode(forKey: .description)
+        comics = try container.decodeCollection(forKey: .comics)
+        series = try container.decodeCollection(forKey: .series)
+        events = try container.decodeCollection(forKey: .events)
+        stories = try container.decodeCollection(forKey: .stories)
     }
 }
+
+private extension KeyedDecodingContainer {
+    func decodeCollection<Item: Decodable>(forKey key: Key) throws  -> [Item] {
+        let coll = try decode(forKey: key) as Character.Collection<Item>
+        return coll.items
+    }
+}
+
