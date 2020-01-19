@@ -51,7 +51,7 @@ extension MainViewViewModel {
 
 // MARK: - Presentation
 extension MainViewViewModel {
-
+    var title: String { "Characteres" }
     var searchPlaceholder: String { "Search your hero." }
 
     var inProgress: Bool {
@@ -82,7 +82,7 @@ extension MainViewViewModel {
 
     func detail(with id: Int) -> CharacterDetailViewModel? {
         query.character(with: id)
-            .map { CharacterDetailViewModel(from: $0) }
+            .map { CharacterDetailViewModel(from: $0, stars: starStore) }
     }
 
     func toggleStart(id: Int) {

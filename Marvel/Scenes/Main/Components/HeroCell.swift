@@ -108,10 +108,3 @@ class HeroCell: UICollectionViewCell {
         delegate?.heroCellDidToggleStar(self)
     }
 }
-
-extension UIImage {
-    static func starred(_ selected: Bool) -> UIImage? {
-        let name = selected ? "star.fill" : "star"
-        return UIImage(systemName: name)
-    }
-}

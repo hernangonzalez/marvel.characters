@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class CharacterDetailViewController: UIViewController {
     // MARK: Dependencies
@@ -14,6 +15,7 @@ class CharacterDetailViewController: UIViewController {
 
     // MARK: Model
     private let viewModel: CharacterDetailViewModel
+    private var bindings: [AnyCancellable] = .init()
 
     // MARK: Init
     init(model: CharacterDetailViewModel, provider: ImageProvider) {
@@ -76,5 +78,37 @@ class CharacterDetailViewController: UIViewController {
             infoStack.trailingAnchor.constraint(equalTo: scroll.trailingAnchor),
             infoStack.widthAnchor.constraint(equalTo: scroll.widthAnchor, constant: -16)
         ])
+
+        setupBindings()
+    }
+
+    private func setupBindings() {
+        let binding = viewModel
+            .viewNeedsUpdate
+            .sink(receiveValue: updateContent)
+        bindings.append(binding)
+    }
+
+    override var navigationItem: UINavigationItem {
+        let item = super.navigationItem
+        if item.rightBarButtonItem == nil {
+            item.rightBarButtonItem = .init(image: UIImage.starred(viewModel.starred),
+                                            style: .done,
+                                            target: self,
+                                            action: #selector(starDidTap))
+            item.rightBarButtonItem?.tintColor = .systemYellow
+        }
+        return item
+    }
+
+    // MARK: Content
+    func updateContent() {
+        navigationItem.rightBarButtonItem?.image = UIImage.starred(viewModel.starred)
+    }
+
+    // MARK: Star
+    @objc
+    private func starDidTap() {
+        viewModel.togleStar()
     }
 }

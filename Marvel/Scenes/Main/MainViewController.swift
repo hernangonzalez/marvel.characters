@@ -52,6 +52,7 @@ class MainViewController: UIViewController {
         viewModel = model
         imageProvider = loader
         super.init(nibName: nil, bundle: nil)
+        title = viewModel.title
     }
 
     required init?(coder: NSCoder) {

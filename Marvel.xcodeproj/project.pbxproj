@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5F56C44A23D4BBEF00446D33 /* StarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F56C44923D4BBEF00446D33 /* StarStore.swift */; };
+		5F56C44C23D4C26A00446D33 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F56C44B23D4C26A00446D33 /* UIImage+Extensions.swift */; };
 		5F9E5A8423D1BFFE009F475A /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9E5A8323D1BFFE009F475A /* Page.swift */; };
 		5FCA8E2023D34D6D006B84D0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCA8E1F23D34D6D006B84D0 /* MainViewController.swift */; };
 		5FCA8E2323D34F32006B84D0 /* MainViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCA8E2223D34F32006B84D0 /* MainViewViewModel.swift */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		5F56C44923D4BBEF00446D33 /* StarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarStore.swift; sourceTree = "<group>"; };
+		5F56C44B23D4C26A00446D33 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		5F9E5A8323D1BFFE009F475A /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		5FCA8E1F23D34D6D006B84D0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		5FCA8E2223D34F32006B84D0 /* MainViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewViewModel.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				5FCA8E2823D3533A006B84D0 /* UICollectionView+Extension.swift */,
+				5F56C44B23D4C26A00446D33 /* UIImage+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				5FCA8E2623D35307006B84D0 /* HeroCell.swift in Sources */,
 				5FCA8E2023D34D6D006B84D0 /* MainViewController.swift in Sources */,
 				5FCA8E2B23D3546E006B84D0 /* LoadingCell.swift in Sources */,
+				5F56C44C23D4C26A00446D33 /* UIImage+Extensions.swift in Sources */,
 				5FDAE1B323D0D43C00479419 /* AppDelegate.swift in Sources */,
 				5F56C44A23D4BBEF00446D33 /* StarStore.swift in Sources */,
 				5FCA8E2923D3533A006B84D0 /* UICollectionView+Extension.swift in Sources */,
