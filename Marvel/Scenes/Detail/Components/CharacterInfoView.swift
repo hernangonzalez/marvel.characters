@@ -21,6 +21,7 @@ class CharacterInfoView: UIView {
     // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        backgroundColor = .systemBackground
 
         let caption = UILabel(frame: .zero)
         caption.font = .preferredFont(forTextStyle: .headline)

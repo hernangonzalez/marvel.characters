@@ -12,10 +12,11 @@ import Combine
 
 class MainViewViewModel {
     private var bindings = CancellableSet()
+    private let starStore: StarProvider = StarStore(.standard)
     private let query: CharacterQuery = .init()
-    private var searching: Bool
     private let needsUpdate: PassthroughSubject<Void, Never> = .init()
-    private var items: [MainModels.Item] = .init() {
+    private var searching: Bool
+    private var characters: [Character] = .init() {
         willSet { searching = false }
         didSet { needsUpdate.send() }
     }
@@ -24,9 +25,12 @@ class MainViewViewModel {
         searching = true
         bindings += query
             .characters
-            .map { $0.map { MainModels.Item(from: $0) }}
             .receive(on: DispatchQueue.main)
-            .assign(to: \.items, on: self)
+            .assign(to: \.characters, on: self)
+        bindings += starStore
+            .storeDidUpdate
+            .receive(on: DispatchQueue.main)
+            .subscribe(needsUpdate)
         query.apply(query: .init())
     }
 }
@@ -58,16 +62,21 @@ extension MainViewViewModel {
         needsUpdate.eraseToAnyPublisher()
     }
 
+    private var items: [MainModels.Item] {
+        characters.map {
+            let star = starStore.starred(for: $0.id)
+            let model = HeroCellViewModel(from: $0, starred: star)
+            return .hero(id: $0.id, model: model)
+        }
+    }
+
     var snapshot: MainModels.Snapshot {
         var snapshot = MainModels.Snapshot()
         snapshot.appendSections([.main])
-
         snapshot.appendItems(items)
-
         if query.canLoadMore {
             snapshot.appendItems([.loading])
         }
-
         return snapshot
     }
 
@@ -75,20 +84,17 @@ extension MainViewViewModel {
         query.character(with: id)
             .map { CharacterDetailViewModel(from: $0) }
     }
-}
 
-private extension MainModels.Item {
-    init(from character: Character) {
-        let model = HeroCellViewModel(from: character)
-        self = .hero(id: character.id, model: model)
+    func toggleStart(id: Int) {
+        starStore.togge(for: id)
     }
 }
 
+// MARK: - HeroCellViewModel
 private extension HeroCellViewModel {
-    init(from character: Character) {
-        name = character.name
-        thumbnail = character.thumbnailURL
+    init(from character: Character, starred: Bool) {
+        self.name = character.name
+        self.thumbnail = character.thumbnailURL
+        self.starred = starred
     }
 }
-
-

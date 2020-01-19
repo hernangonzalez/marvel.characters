@@ -34,12 +34,13 @@ class MainViewController: UIViewController {
         return view
     }()
 
-    private lazy var dataSource = MainModels.DataSource(collectionView: collectionView) { [unowned imageProvider] collection, path, item  in
+    private lazy var dataSource = MainModels.DataSource(collectionView: collectionView) { [unowned self] collection, path, item  in
         switch item {
         case let .hero(_, model):
             let cell = collection.loadCell(for: path) as HeroCell?
-            cell?.imageProvider = imageProvider
+            cell?.imageProvider = self.imageProvider
             cell?.update(with: model)
+            cell?.delegate = self
             return cell
         case .loading:
             return collection.loadCell(for: path) as LoadingCell?
@@ -109,6 +110,20 @@ class MainViewController: UIViewController {
             item.rightBarButtonItem = UIBarButtonItem(customView: activityView)
         }
         return item
+    }
+}
+
+// MARK: - HeroCellDelegate
+extension MainViewController: HeroCellDelegate {
+    func heroCellDidToggleStar(_ sender: HeroCell) {
+        let path = collectionView.indexPath(for: sender)
+        let item = path.flatMap { dataSource.itemIdentifier(for: $0) }
+        switch item {
+        case let .hero(id, _):
+            viewModel.toggleStart(id: id)
+        default:
+            break
+        }
     }
 }
 

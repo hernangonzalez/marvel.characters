@@ -54,7 +54,7 @@ class CharacterDetailViewController: UIViewController {
         scroll.addSubview(infoStack)
         scroll.alwaysBounceVertical = true
 
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubview(thumb)
         view.addSubview(scroll)
 
