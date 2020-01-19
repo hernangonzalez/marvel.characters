@@ -12,6 +12,7 @@ import Combine
 class MainViewController: UIViewController {
     // MARK: Dependencies
     private let imageProvider: ImageProvider
+    private let transition = TransitionDelegate()
 
     // MARK: Model
     private let viewModel: MainViewViewModel
@@ -53,6 +54,7 @@ class MainViewController: UIViewController {
         imageProvider = loader
         super.init(nibName: nil, bundle: nil)
         title = viewModel.title
+        transitioningDelegate = transition
     }
 
     required init?(coder: NSCoder) {
@@ -137,7 +139,11 @@ private extension MainViewController {
         }
 
         let detail = CharacterDetailViewController(model: viewModel, provider: imageProvider)
-        show(detail, sender: self)
+        let nav = UINavigationController(rootViewController: detail)
+        nav.navigationBar.isTranslucent = true
+        nav.modalPresentationStyle = .fullScreen
+        nav.transitioningDelegate = transition
+        present(nav, animated: true, completion: nil)
     }
 }
 

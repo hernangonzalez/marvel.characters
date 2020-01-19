@@ -98,6 +98,9 @@ class CharacterDetailViewController: UIViewController {
                                             action: #selector(starDidTap))
             item.rightBarButtonItem?.tintColor = .systemYellow
         }
+        if item.leftBarButtonItem == nil {
+            item.leftBarButtonItem = .init(barButtonSystemItem: .close, target: self, action: #selector(close))
+        }
         return item
     }
 
@@ -110,5 +113,10 @@ class CharacterDetailViewController: UIViewController {
     @objc
     private func starDidTap() {
         viewModel.togleStar()
+    }
+
+    @objc
+    private func close() {
+        dismiss(animated: true, completion: nil)
     }
 }
