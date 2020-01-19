@@ -22,19 +22,19 @@ public struct Character: Identifiable {
 }
 
 public struct Comic: Decodable {
-    let name: String
+    public let name: String
 }
 
 public struct Serie: Decodable {
-    let name: String
+    public let name: String
 }
 
 public struct Story: Decodable {
-    let name: String
+    public let name: String
 }
 
 public struct Event: Decodable {
-    let name: String
+    public let name: String
 }
 
 // MARK: - Decodable
