@@ -46,6 +46,10 @@ public extension CharacterQuery {
         cancellables += publisher.sink(receiveCompletion: search(complete:),
                                        receiveValue: append(page:))
     }
+
+    func character(with id: Character.ID) -> Character? {
+        items.value.first { $0.id == id }
+    }
 }
 
 // MAKR: - Internals
@@ -58,9 +62,7 @@ private extension CharacterQuery {
                   receiveValue: start(page:))
     }
 
-    func search(complete: Subscribers.Completion<Error>) {
-        print(complete)
-    }
+    func search(complete: Subscribers.Completion<Error>) { }
 
     func start(page: Page<Character>) {
         items.value = page.items

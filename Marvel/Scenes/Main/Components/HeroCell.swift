@@ -18,10 +18,13 @@ class HeroCell: UICollectionViewCell {
     static let height: CGFloat = 144
 
     // MARK: Dependencies
-    var imageLoader: ImageProvider?
+    var imageProvider: ImageProvider? {
+        get { thumbnailView?.provider }
+        set { thumbnailView?.provider = newValue }
+    }
 
     // MARK: Properties
-    private weak var thumbnailView: UIImageView!
+    private weak var thumbnailView: RemoteImageView!
     private weak var nameLabel: UILabel!
     private var viewModel: HeroCellViewModel?
 
@@ -31,7 +34,7 @@ class HeroCell: UICollectionViewCell {
         contentView.backgroundColor = .systemRed
         contentView.clipsToBounds = true
 
-        let thumb = UIImageView(frame: .zero)
+        let thumb = RemoteImageView(frame: .zero)
         thumb.translatesAutoresizingMaskIntoConstraints = false
         thumb.backgroundColor = .systemRed
         thumb.contentMode = .scaleAspectFill
@@ -71,27 +74,13 @@ class HeroCell: UICollectionViewCell {
     // MARK: Content
     override func prepareForReuse() {
         super.prepareForReuse()
+        thumbnailView.prepareForReuse()
         nameLabel.text = nil
-        thumbnailView.image = nil
-        thumbnailView.alpha = 0
     }
 
     func update(with model: HeroCellViewModel) {
         viewModel = model
         nameLabel.text = model.name
-        imageLoader?.image(with: model.thumbnail) { [weak self] image, url in
-            self?.update(thumbnail: image, url: url)
-        }
-    }
-
-    private func update(thumbnail: UIImage, url: URL) {
-        guard viewModel?.thumbnail == url else {
-            return
-        }
-
-        UIView.animate(withDuration: 0.35) {
-            self.thumbnailView.alpha = 1
-            self.thumbnailView.image = thumbnail
-        }
+        thumbnailView.update(with: model.thumbnail)
     }
 }

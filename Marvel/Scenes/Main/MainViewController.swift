@@ -11,7 +11,7 @@ import Combine
 
 class MainViewController: UIViewController {
     // MARK: Dependencies
-    private let imageLoader: ImageProvider
+    private let imageProvider: ImageProvider
 
     // MARK: Model
     private let viewModel: MainViewViewModel
@@ -22,6 +22,7 @@ class MainViewController: UIViewController {
 
     private lazy var searchBar: UISearchBar = {
         let bar = UISearchBar(frame: .zero)
+        bar.placeholder = viewModel.searchPlaceholder
         bar.delegate = self
         return bar
     }()
@@ -33,11 +34,11 @@ class MainViewController: UIViewController {
         return view
     }()
 
-    private lazy var dataSource = MainModels.DataSource(collectionView: collectionView) { [unowned self] collection, path, item  in
+    private lazy var dataSource = MainModels.DataSource(collectionView: collectionView) { [unowned imageProvider] collection, path, item  in
         switch item {
         case let .hero(_, model):
             let cell = collection.loadCell(for: path) as HeroCell?
-            cell?.imageLoader = self.imageLoader
+            cell?.imageProvider = imageProvider
             cell?.update(with: model)
             return cell
         case .loading:
@@ -48,7 +49,7 @@ class MainViewController: UIViewController {
     // MARK: Lifecycle
     init(model: MainViewViewModel, loader: ImageProvider) {
         viewModel = model
-        imageLoader = loader
+        imageProvider = loader
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -111,11 +112,33 @@ class MainViewController: UIViewController {
     }
 }
 
+// MARK: - Routing
+private extension MainViewController {
+    func presentDetailScene(with id: Int) {
+        guard let viewModel = viewModel.detail(with: id) else {
+            print("Could not find model with: \(id)")
+            return
+        }
+
+        let detail = CharacterDetailViewController(model: viewModel, provider: imageProvider)
+        show(detail, sender: self)
+    }
+}
+
 // MARK: - UICollectionViewDelegateFlowLayout
 extension MainViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        debugPrint(indexPath)
+        guard let item = dataSource.itemIdentifier(for: indexPath) else {
+            return
+        }
+
+        switch item {
+        case let .hero(id, _):
+            presentDetailScene(with: id)
+        default:
+            break
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
